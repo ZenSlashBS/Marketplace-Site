@@ -1,1 +1,261 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarav's Marketplace</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
 
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .connect-btn {
+            background: linear-gradient(45deg, #ff69b4, #00bfff);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px;
+            height: 80vh;
+            background: radial-gradient(circle at top right, rgba(0,191,255,0.1), transparent);
+        }
+
+        .hero-content {
+            max-width: 50%;
+        }
+
+        .hero-title {
+            font-size: 48px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 10px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .explore-btn {
+            background: transparent;
+            border: 2px solid #00bfff;
+            color: #00bfff;
+        }
+
+        .hero-image {
+            max-width: 40%;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        section {
+            padding: 50px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            width: 30%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 18px;
+        }
+
+        .card-bid {
+            color: #00bfff;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .artist-card {
+            text-align: center;
+        }
+
+        .artist-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        footer {
+            padding: 50px;
+            background: #0f0c29;
+        }
+
+        .footer-about {
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                height: auto;
+            }
+            .hero-content, .hero-image {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            header {
+                flex-direction: column;
+                padding: 20px;
+            }
+            .cards .card {
+                width: 100%;
+                max-width: none;
+            }
+            footer {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Aarav's Marketplace</div>
+        <button class="connect-btn">Connect Wallet</button>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Marketplace for Tools</h1>
+            <p class="hero-subtitle">Discover tools with pics and info. Explore the cyber tool community and endless possibilities.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn explore-btn">Explore</a>
+            </div>
+        </div>
+        <img class="hero-image" src="{{ hero_image }}" alt="Owner Image">
+    </section>
+
+    {% if tools %}
+    <section id="featured">
+        <h2 class="section-title">Featured Tools</h2>
+        <div class="cards">
+            {% for tool in tools %}
+            <div class="card">
+                <img src="{{ url_for('uploads', filename=tool[2].split('/')[-1]) if tool[2] else 'https://placehold.co/300x200?text=No+Image' }}" alt="{{ tool[0] }}">
+                <h3 class="card-title">{{ tool[0] }}</h3>
+                <p class="card-bid">Info: {{ tool[1] }}</p>
+                <button class="btn explore-btn">View Details</button>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if tools %}
+    <section id="gallery">
+        <h2 class="section-title">Explore Tools</h2>
+        <div class="grid">
+            {% for tool in tools %}
+            <div class="card">
+                <img src="{{ url_for('uploads', filename=tool[2].split('/')[-1]) if tool[2] else 'https://placehold.co/200x200?text=No+Image' }}" alt="{{ tool[0] }}">
+                <h3 class="card-title">{{ tool[0] }}</h3>
+                <button class="btn explore-btn">View Info</button>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <section id="top-artists">
+        <h2 class="section-title">Top Uploaders</h2>
+        <div class="artists-grid">
+            <div class="artist-card">
+                <img class="artist-img" src="{{ default_creator.image_path }}" alt="{{ default_creator.name }}">
+                <p>{{ default_creator.name }}</p>
+            </div>
+            {% for creator in creators %}
+            <div class="artist-card">
+                <img class="artist-img" src="{{ url_for('uploads', filename=creator[1].split('/')[-1]) if creator[1] else 'https://placehold.co/100x100?text=No+Image' }}" alt="{{ creator[0] }}">
+                <p>{{ creator[0] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-about">
+            <h3>About Us</h3>
+            <p>Aarav's Marketplace is a cyber-themed platform for sharing and discovering tools with pictures and information.</p>
+        </div>
+    </footer>
+</body>
+</html>
