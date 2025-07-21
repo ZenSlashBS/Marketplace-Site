@@ -1,1 +1,5 @@
-
+flask
+python-telegram-bot
+sqlite3
+uuid
+waitress
